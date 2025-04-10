@@ -1,4 +1,3 @@
-
 # User Registration Endpoint Documentation
 
 ## Endpoint: `/users/register`
@@ -76,4 +75,85 @@ The following fields are required in the request body:
 ### Notes:
 - Ensure that the `Content-Type` header is set to `application/json` in the request.
 - The `token` in the response can be used for authentication in subsequent requests.
-# Uber-Clone
+
+# User Login Endpoint Documentation
+
+## Endpoint: `/users/login`
+
+### Method: `POST`
+
+### Description:
+This endpoint is used to authenticate an existing user. It validates the input data, checks the credentials, and returns a success message along with an authentication token.
+
+---
+
+### Request Body:
+The following fields are required in the request body:
+
+```json
+{
+  "email": "string (valid email format, required)",
+  "password": "string (min: 6 characters, required)"
+}
+```
+
+---
+
+### Status Codes:
+- **200**: User logged in successfully.
+- **400**: Validation error (e.g., missing or invalid fields).
+- **401**: Invalid email or password.
+- **500**: Internal server error.
+
+---
+
+### Response Example:
+
+#### Success Response (200):
+```json
+{
+  "message": "User logged in successfully",
+  "user": {
+    "_id": "64f1b2c3d4e5f6789012abcd",
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@example.com"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+#### Error Response (400):
+```json
+{
+  "errors": [
+    {
+      "msg": "Please enter a valid email address",
+      "param": "email",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### Error Response (401):
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+#### Error Response (500):
+```json
+{
+  "message": "Internal server error"
+}
+```
+
+---
+
+### Notes:
+- Ensure that the `Content-Type` header is set to `application/json` in the request.
+- The `token` in the response can be used for authentication in subsequent requests.
