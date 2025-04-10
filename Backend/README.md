@@ -363,6 +363,200 @@ The following fields are required in the request body:
 
 ---
 
+# Captain Login Endpoint Documentation
+
+## Endpoint: `/captains/login`
+
+### Method: `POST`
+
+### Description:
+This endpoint is used to authenticate an existing captain. It validates the input data, checks the credentials, and returns a success message along with an authentication token.
+
+---
+
+### Request Body:
+The following fields are required in the request body:
+
+```json
+{
+  "email": "string (valid email format, required)",
+  "password": "string (min: 6 characters, required)"
+}
+```
+
+---
+
+### Status Codes:
+- **200**: Captain logged in successfully.
+- **400**: Validation error (e.g., missing or invalid fields).
+- **401**: Invalid email or password.
+- **500**: Internal server error.
+
+---
+
+### Response Example:
+
+#### Success Response (200):
+```json
+{
+  "message": "Captain logged in successfully",
+  "captain": {
+    "_id": "64f1b2c3d4e5f6789012abcd",
+    "fullName": {
+      "firstName": "Jane",
+      "lastName": "Smith"
+    },
+    "email": "jane.smith@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "Sedan"
+    }
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+#### Error Response (400):
+```json
+{
+  "errors": [
+    {
+      "msg": "Please enter a valid email address",
+      "param": "email",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### Error Response (401):
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+#### Error Response (500):
+```json
+{
+  "message": "Internal server error"
+}
+```
+
+---
+
+# Captain Profile Endpoint Documentation
+
+## Endpoint: `/captains/profile`
+
+### Method: `GET`
+
+### Description:
+This endpoint is used to fetch the profile of the authenticated captain. It requires the captain to be logged in and authenticated.
+
+---
+
+### Headers:
+- **Authorization**: `Bearer <token>` (required)
+
+---
+
+### Status Codes:
+- **200**: Captain profile fetched successfully.
+- **401**: Unauthorized (e.g., missing or invalid token).
+- **500**: Internal server error.
+
+---
+
+### Response Example:
+
+#### Success Response (200):
+```json
+{
+  "message": "Captain profile fetched successfully",
+  "captain": {
+    "_id": "64f1b2c3d4e5f6789012abcd",
+    "fullName": {
+      "firstName": "Jane",
+      "lastName": "Smith"
+    },
+    "email": "jane.smith@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "Sedan"
+    }
+  }
+}
+```
+
+#### Error Response (401):
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Error Response (500):
+```json
+{
+  "message": "Internal server error"
+}
+```
+
+---
+
+# Captain Logout Endpoint Documentation
+
+## Endpoint: `/captains/logout`
+
+### Method: `GET`
+
+### Description:
+This endpoint is used to log out the authenticated captain. It invalidates the captain's token provided in cookie or headers by adding it to a blacklist and clears the authentication cookie.
+
+---
+
+### Headers:
+- **Authorization**: `Bearer <token>` (required)
+
+---
+
+### Status Codes:
+- **200**: Captain logged out successfully.
+- **401**: Unauthorized (e.g., missing or invalid token).
+- **500**: Internal server error.
+
+---
+
+### Response Example:
+
+#### Success Response (200):
+```json
+{
+  "message": "Captain logged out successfully"
+}
+```
+
+#### Error Response (401):
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Error Response (500):
+```json
+{
+  "message": "Internal server error"
+}
+```
+
+---
+
 ### Notes:
-- Ensure that the `Content-Type` header is set to `application/json` in the request.
-- The `token` in the response can be used for authentication in subsequent requests.
+- Ensure that the `Authorization` header contains a valid token obtained during login.
+- The token will no longer be valid after logout.
