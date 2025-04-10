@@ -157,3 +157,118 @@ The following fields are required in the request body:
 ### Notes:
 - Ensure that the `Content-Type` header is set to `application/json` in the request.
 - The `token` in the response can be used for authentication in subsequent requests.
+
+---
+
+# User Profile Endpoint Documentation
+
+## Endpoint: `/users/profile`
+
+### Method: `GET`
+
+### Description:
+This endpoint is used to fetch the profile of the authenticated user. It requires the user to be logged in and authenticated.
+
+---
+
+### Headers:
+- **Authorization**: `Bearer <token>` (required)
+
+---
+
+### Status Codes:
+- **200**: User profile fetched successfully.
+- **401**: Unauthorized (e.g., missing or invalid token).
+- **500**: Internal server error.
+
+---
+
+### Response Example:
+
+#### Success Response (200):
+```json
+{
+  "message": "User profile fetched successfully",
+  "user": {
+    "_id": "64f1b2c3d4e5f6789012abcd",
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+#### Error Response (401):
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Error Response (500):
+```json
+{
+  "message": "Internal server error"
+}
+```
+
+---
+
+### Notes:
+- Ensure that the `Authorization` header contains a valid token obtained during login.
+
+---
+
+# User Logout Endpoint Documentation
+
+## Endpoint: `/users/logout`
+
+### Method: `GET`
+
+### Description:
+This endpoint is used to log out the authenticated user. It invalidates the user's token provided in cookie or headers by adding it to a blacklist and clears the authentication cookie.
+
+---
+
+### Headers:
+- **Authorization**: `Bearer <token>` (required)
+
+---
+
+### Status Codes:
+- **200**: User logged out successfully.
+- **401**: Unauthorized (e.g., missing or invalid token).
+- **500**: Internal server error.
+
+---
+
+### Response Example:
+
+#### Success Response (200):
+```json
+{
+  "message": "User logged out successfully"
+}
+```
+
+#### Error Response (401):
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Error Response (500):
+```json
+{
+  "message": "Internal server error"
+}
+```
+
+---
+
+### Notes:
+- Ensure that the `Authorization` header contains a valid token obtained during login.
+- The token will no longer be valid after logout.
